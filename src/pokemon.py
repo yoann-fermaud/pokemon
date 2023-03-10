@@ -242,13 +242,13 @@ class Menu:
                         # force to attack if there are no more potions
                         if self.player_pokemon.num_potions == 0:
                             Text(self.screen, 5, 350, "No more potions left", 20,
-                                 690, 125, "../assets/background_text_box.png").draw()
+                                 690, 125, "../assets/background/background_text_box.png").draw()
                             time.sleep(1)
                             self.game_status = "player move"
                         else:
                             self.player_pokemon.use_potion()
                             Text(self.screen, 5, 350, f"{self.player_pokemon.name} used potion", 20,
-                                 690, 125, "../assets/background_text_box.png").draw()
+                                 690, 125, "../assets/background/background_text_box.png").draw()
                             time.sleep(1)
                             self.game_status = "rival turn"
 
