@@ -67,7 +67,7 @@ class Pokemon(pg.sprite.Sprite):
         # display_message(f'{self.name} used {move.name}')
         self.draw_background_bottom()
         Text(self.screen, 5, 350, f"{self.name} used {move.name}!", 20,
-             690, 125, "../assets/background/background_text_box.png").draw()
+             690, 125, "assets/background/background_text_box.png").draw()
         # pause for 2 seconds
         time.sleep(2)
         # calculate the damage
@@ -156,7 +156,7 @@ class Pokemon(pg.sprite.Sprite):
         self.screen.blit(sprite, (self.x, self.y))
 
     def draw_background_bottom(self):
-        background = pg.image.load("../assets/background/background_battle_1.png")
+        background = pg.image.load("assets/background/background_battle_1.png")
         background = pg.transform.scale(background, (game_width, 150))
         self.screen.blit(background, (0, 350))
 
@@ -192,9 +192,9 @@ class Menu:
         self.level = 30
 
         self.bulbasaur = Pokemon("Bulbasaur", self.level, 25, 150)
-        self.charmander = Pokemon("Charmander", self.level, 175, 150)
-        self.squirtle = Pokemon("Squirtle", self.level, 325, 150)
-        self.eevee = Pokemon("Eevee", self.level, 475, 150)
+        self.charmander = Pokemon("Charmander", self.level, 190, 150)
+        self.squirtle = Pokemon("Squirtle", self.level, 352, 150)
+        self.eevee = Pokemon("Eevee", self.level, 514, 150)
         self.pokemons = [self.bulbasaur, self.charmander, self.squirtle, self.eevee]
 
         # the player's and rival's selected pokemon
@@ -210,6 +210,24 @@ class Menu:
                 pg.quit()
                 sys.exit()
             # detect mouse click
+                # detect keypress
+            if event.type == pg.KEYDOWN:
+
+                # play again
+                if event.key == pg.K_y:
+                    # reset the pokemons
+                    self.bulbasaur = Pokemon("Bulbasaur", self.level, 25, 150)
+                    self.charmander = Pokemon("Charmander", self.level, 175, 150)
+                    self.squirtle = Pokemon("Squirtle", self.level, 325, 150)
+                    self.eevee = Pokemon("Eevee", self.level, 475, 150)
+                    self.pokemons = [self.bulbasaur, self.charmander, self.squirtle, self.eevee]
+                    self.game_status = 'select pokemon'
+
+                # quit
+                elif event.key == pg.K_n:
+                    pg.quit()
+                    sys.exit()
+
             if event.type == pg.MOUSEBUTTONDOWN:
                 mouse_events = event.pos
                 # for selecting a pokemon
@@ -230,6 +248,7 @@ class Menu:
                             self.rival_pokemon.hp_x = 152
                             self.rival_pokemon.hp_y = 87
                             self.game_status = "prebattle"
+
                 # for selecting fight or use potion
                 elif self.game_status == "player turn":
                     # check if fight button was clicked
@@ -242,13 +261,13 @@ class Menu:
                         # force to attack if there are no more potions
                         if self.player_pokemon.num_potions == 0:
                             Text(self.screen, 5, 350, "No more potions left", 20,
-                                 690, 125, "../assets/background/background_text_box.png").draw()
+                                 690, 125, "assets/background/background_text_box.png").draw()
                             time.sleep(1)
                             self.game_status = "player move"
                         else:
                             self.player_pokemon.use_potion()
                             Text(self.screen, 5, 350, f"{self.player_pokemon.name} used potion", 20,
-                                 690, 125, "../assets/background/background_text_box.png").draw()
+                                 690, 125, "assets/background/background_text_box.png").draw()
                             time.sleep(1)
                             self.game_status = "rival turn"
 
@@ -286,20 +305,20 @@ class Menu:
 
     def draw_pokemon_hp(self):
         # draw the hp bars
-        self.hp_right = pg.image.load("../assets/pictures/hp_right.png")
+        self.hp_right = pg.image.load("assets/pictures/hp_right.png")
         self.hp_right = pg.transform.scale(self.hp_right, (355, 107))
         self.screen.blit(self.hp_right, (345, 220))
         self.player_pokemon.draw_hp(False, 590, 295)
         Text(self.screen, 400, 220, f"{self.player_pokemon.name}", 25, 40, 40, None).draw()
 
-        self.hp_left = pg.image.load("../assets/pictures/hp_left.png")
+        self.hp_left = pg.image.load("assets/pictures/hp_left.png")
         self.hp_left = pg.transform.scale(self.hp_left, (370, 90))
         self.screen.blit(self.hp_left, (0, 30))
         self.rival_pokemon.draw_hp(True, 0, 0)
         Text(self.screen, 15, 30, f"{self.rival_pokemon.name}", 25, 40, 40, None).draw()
 
     def draw_background_bottom(self):
-        background = pg.image.load("../assets/background/background_battle_1.png")
+        background = pg.image.load("assets/background/background_battle_1.png")
         background = pg.transform.scale(background, (game_width, 150))
         self.screen.blit(background, (0, 350))
 
@@ -332,7 +351,7 @@ class Menu:
         if self.game_status == "start battle":
             # rival sends out their pokemon
             self.screen.fill("white")
-            self.background = pg.image.load("../assets/background/background_battle_0.png")
+            self.background = pg.image.load("assets/background/background_battle_0.png")
             self.background = pg.transform.scale(self.background, (game_width, 350))
             self.screen.blit(self.background, (0, 0))
             self.draw_background_bottom()
@@ -341,7 +360,7 @@ class Menu:
             while incr < 255:
                 self.rival_pokemon.draw()
                 Text(self.screen, 5, 350, f"Rival sent out {self.rival_pokemon.name}!", 20,
-                     690, 125, "../assets/background/background_text_box.png").draw()
+                     690, 125, "assets/background/background_text_box.png").draw()
                 incr += 1
                 pg.display.update()
 
@@ -354,7 +373,7 @@ class Menu:
                 self.player_pokemon.draw()
 
                 Text(self.screen, 5, 350, f"Go {self.player_pokemon.name}!", 20,
-                     690, 125, "../assets/background/background_text_box.png").draw()
+                     690, 125, "assets/background/background_text_box.png").draw()
                 incr += 1
                 pg.display.update()
 
@@ -378,9 +397,9 @@ class Menu:
             self.draw_background_bottom()
 
             # create the fight and use potion buttons
-            self.fight_button = Button(pg.image.load("../assets/background/background_text_box.png"), 345, 125, ((game_width / 2) - 175, 412),
+            self.fight_button = Button(pg.image.load("assets/background/background_text_box.png"), 345, 125, ((game_width / 2) - 175, 412),
                                        "FIGHT", 40, "black", "grey")
-            self.potion_button = Button(pg.image.load("../assets/background/background_text_box.png"), 345, 125, ((game_width / 2) + 175, 412),
+            self.potion_button = Button(pg.image.load("assets/background/background_text_box.png"), 345, 125, ((game_width / 2) + 175, 412),
                                         f"POTION ({self.player_pokemon.num_potions})", 40, "black", "grey")
 
             for button in [self.fight_button, self.potion_button]:
@@ -405,7 +424,7 @@ class Menu:
                 left = (game_width / 2 - 175) + i % 2 * (button_width + 4)
                 top = 386 + i // 2 * (button_height + 2)
 
-                button = Button(pg.image.load("../assets/background/background_text_box.png"), button_width, button_height,
+                button = Button(pg.image.load("assets/background/background_text_box.png"), button_width, button_height,
                                 (left, top), move.name.capitalize(), 30, "black", "grey")
 
                 button.changeColor(mouse_player_move)
@@ -435,6 +454,31 @@ class Menu:
 
             pg.display.update()
 
+    def draw_fainted(self):
+        # one of the pokemons fainted
+        if self.game_status == 'fainted':
+
+            self.draw_pokemon_hp()
+            self.draw_background_bottom()
+
+            # determine which pokemon fainted
+            if self.rival_pokemon.current_hp == 0:
+                self.player_pokemon.draw()
+                self.rival_pokemon.draw()
+                Text(self.screen, 5, 350, f"{self.rival_pokemon.name} fainted! Play again (Y/N)?", 20,
+                     690, 125, "assets/background/background_text_box.png").draw()
+                time.sleep(2)
+            else:
+                self.player_pokemon.draw()
+                self.rival_pokemon.draw()
+                Text(self.screen, 5, 350, f"{self.player_pokemon.name} fainted! Play again (Y/N)?", 20,
+                     690, 125, "assets/background/background_text_box.png").draw()
+                time.sleep(2)
+
+                pg.display.update()
+
+            self.game_status = 'gameover'
+
     def run(self):
         while True:
             self.events()
@@ -444,7 +488,4 @@ class Menu:
             self.draw_player_turn()
             self.draw_player_move()
             self.draw_rival_turn()
-
-
-menu = Menu()
-menu.run()
+            self.draw_fainted()
